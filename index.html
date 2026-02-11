@@ -1,0 +1,2169 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <title>ВятскаяЭкоДоска — Качественные пиломатериалы</title>
+    <link rel="icon" type="image/png" href="logo/favicon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --forest-dark: #1a3a1a;
+            --forest-green: #2d5016;
+            --forest-light: #4a7c2c;
+            --wood-brown: #8b6f47;
+            --accent-gold: #d4a574;
+            --bg-cream: #faf8f5;
+            --text-dark: #1a1a1a;
+            --text-gray: #666;
+            --border-light: #e8e4df;
+            
+            --font-display: 'Playfair Display', serif;
+            --font-body: 'Inter', sans-serif;
+            
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        /* Улучшение для мобильных - предотвращение двойного тапа для зумирования */
+        a, button, .btn, .product-btn, .video-play-button {
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        body {
+            font-family: var(--font-body);
+            color: var(--text-dark);
+            background: var(--bg-cream);
+            line-height: 1.6;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        
+        /* Предотвращение горизонтального скролла */
+        * {
+            max-width: 100%;
+        }
+        
+        img, video {
+            max-width: 100%;
+            height: auto;
+        }
+        
+        /* Навигация */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(250, 248, 245, 0.98);
+            backdrop-filter: blur(20px);
+            padding: 1.2rem 0;
+            z-index: 1000;
+            border-bottom: 1px solid var(--border-light);
+            transition: var(--transition);
+        }
+        
+        .navbar.scrolled {
+            padding: 0.8rem 0;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.06);
+        }
+        
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 100%;
+            min-height: 100%;
+            width: 100%;
+        }
+        
+        @media (min-width: 768px) {
+            .nav-container {
+                padding: 0 2rem;
+            }
+        }
+        
+        .logo {
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--forest-dark);
+            text-decoration: none;
+            letter-spacing: -0.5px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            gap: 0.5rem;
+            height: 100%;
+        }
+        
+        .logo::before {
+            font-size: 1.3rem;
+        }
+        
+        .logo:hover {
+            transform: scale(1.02);
+            transition: transform 0.3s ease;
+        }
+        
+        .logo img {
+            display: none;
+            height: 50px;
+            width: auto;
+            object-fit: contain;
+            margin: 0;
+            padding: 0;
+            vertical-align: middle;
+        }
+        
+        @media (max-width: 768px) {
+            .logo {
+                font-size: 0;
+                align-items: center;
+                justify-content: flex-start;
+                height: 100%;
+                display: flex;
+            }
+            
+            .logo img {
+                display: block;
+                height: 50px;
+                margin: 0;
+                padding: 0;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .logo img {
+                height: 45px;
+            }
+        }
+        
+        .nav-menu {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+            align-items: center;
+        }
+        
+        .nav-link {
+            text-decoration: none;
+            color: var(--text-dark);
+            font-weight: 500;
+            font-size: 0.9rem;
+            position: relative;
+            transition: var(--transition);
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--forest-green);
+            transition: width 0.3s ease;
+        }
+        
+        .nav-link:hover {
+            color: var(--forest-green);
+        }
+        
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        
+        .burger {
+            display: none;
+            flex-direction: column;
+            gap: 4px;
+            cursor: pointer;
+            padding: 8px;
+        }
+        
+        .burger span {
+            width: 24px;
+            height: 2px;
+            background: var(--forest-dark);
+            transition: var(--transition);
+            border-radius: 2px;
+        }
+        
+        /* Hero секция */
+        .hero {
+            min-height: 85vh;
+            display: flex;
+            align-items: center;
+            padding: 8rem 2rem 3rem;
+            position: relative;
+            background-image: url('images/background.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            overflow: hidden;
+        }
+        
+        @media (max-width: 768px) {
+            .hero {
+                min-height: auto;
+                padding-top: 6rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .hero {
+                min-height: auto;
+                padding-top: 5.5rem;
+            }
+        }
+        
+        .hero::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(250, 248, 245, 0.85);
+            z-index: 0;
+        }
+        
+        .hero-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 3rem;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .hero-content {
+            animation: fadeInUp 0.8s ease-out;
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .hero-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: var(--forest-green);
+            color: white;
+            padding: 0.5rem 1.2rem;
+            border-radius: 2rem;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            letter-spacing: 0.5px;
+        }
+        
+        .hero-title {
+            font-family: var(--font-display);
+            font-size: 3.5rem;
+            font-weight: 800;
+            line-height: 1.1;
+            color: var(--forest-dark);
+            margin-bottom: 1rem;
+            letter-spacing: -1px;
+        }
+        
+        .hero-description {
+            font-size: 1.05rem;
+            color: var(--text-gray);
+            margin-bottom: 2rem;
+            line-height: 1.7;
+            max-width: 540px;
+        }
+        
+        .hero-stats {
+            display: flex;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .stat {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .stat-number {
+            font-family: var(--font-display);
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--forest-green);
+            line-height: 1;
+        }
+        
+        .stat-label {
+            font-size: 0.85rem;
+            color: var(--text-gray);
+            margin-top: 0.3rem;
+        }
+        
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .btn {
+            padding: 0.9rem 2rem;
+            border: none;
+            border-radius: 0.4rem;
+            font-family: var(--font-body);
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .btn-primary {
+            background: var(--forest-green);
+            color: white;
+            box-shadow: 0 4px 14px rgba(45, 80, 22, 0.25);
+        }
+        
+        .btn-primary:hover {
+            background: var(--forest-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(45, 80, 22, 0.35);
+        }
+        
+        .btn-secondary {
+            background: transparent;
+            color: var(--forest-green);
+            border: 2px solid var(--forest-green);
+        }
+        
+        .btn-secondary:hover {
+            background: var(--forest-green);
+            color: white;
+        }
+        
+        .hero-image {
+            position: relative;
+            animation: fadeInRight 0.8s ease-out 0.2s both;
+        }
+        
+        @media (max-width: 768px) {
+            .hero-image {
+                display: none;
+            }
+        }
+        
+        @keyframes fadeInRight {
+            from {
+                opacity: 0;
+                transform: translateX(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        .image-placeholder {
+            width: 100%;
+            aspect-ratio: 1;
+            border-radius: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: transparent;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .image-placeholder img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 1rem;
+            transition: transform 0.4s ease;
+        }
+        
+        .image-placeholder:hover img {
+            transform: scale(1.02);
+        }
+        
+        /* О компании */
+        .about {
+            padding: 4rem 1rem;
+            background: white;
+        }
+        
+        @media (min-width: 768px) {
+            .about {
+                padding: 4rem 2rem;
+            }
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+        
+        @media (min-width: 768px) {
+            .container {
+                padding: 0 2rem;
+            }
+        }
+        
+        .section-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .section-tag {
+            font-size: 0.8rem;
+            color: var(--forest-green);
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 0.75rem;
+            display: inline-block;
+        }
+        
+        .section-title {
+            font-family: var(--font-display);
+            font-size: 2.8rem;
+            font-weight: 700;
+            color: var(--forest-dark);
+            margin-bottom: 1rem;
+        }
+        
+        .section-description {
+            font-size: 1.05rem;
+            color: var(--text-gray);
+            max-width: 680px;
+            margin: 0 auto;
+        }
+        
+        .about-description {
+            font-size: 1rem;
+            color: var(--text-gray);
+            line-height: 1.8;
+            max-width: 1000px;
+            margin: 0 auto 4rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2.5rem;
+            text-align: left;
+        }
+        
+        .about-description p {
+            margin: 0;
+        }
+        
+        @media (max-width: 768px) {
+            .about-description {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+        }
+        
+        .about-content {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        
+        .feature {
+            background: var(--bg-cream);
+            padding: 2rem;
+            border-radius: 0.75rem;
+            border: 1px solid var(--border-light);
+            transition: var(--transition);
+        }
+        
+        .feature:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+            border-color: var(--forest-light);
+        }
+        
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+        
+        .feature-title {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: var(--forest-dark);
+            margin-bottom: 0.5rem;
+        }
+        
+        .feature-text {
+            color: var(--text-gray);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+        
+        /* Видео галерея */
+        .videos {
+            padding: 4rem 1rem;
+            background: white;
+        }
+        
+        @media (min-width: 768px) {
+            .videos {
+                padding: 4rem 2rem;
+            }
+        }
+        
+        .videos-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        
+        .video-item {
+            position: relative;
+            border-radius: 0.75rem;
+            overflow: hidden;
+            aspect-ratio: 16/9;
+            background: var(--bg-cream);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            transition: var(--transition);
+        }
+        
+        .video-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+        }
+        
+        .video-item video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+        
+        /* Кастомная кнопка воспроизведения */
+        .video-play-button {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80px;
+            height: 80px;
+            background: rgba(255, 255, 255, 0.95);
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+            transition: var(--transition);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(10px);
+        }
+        
+        .video-play-button:hover {
+            transform: translate(-50%, -50%) scale(1.1);
+            background: rgba(255, 255, 255, 1);
+            box-shadow: 0 6px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        .video-play-button:active {
+            transform: translate(-50%, -50%) scale(0.95);
+        }
+        
+        .video-play-button::before {
+            content: '';
+            width: 0;
+            height: 0;
+            border-left: 28px solid var(--forest-green);
+            border-top: 18px solid transparent;
+            border-bottom: 18px solid transparent;
+            margin-left: 4px;
+        }
+        
+        .video-item.playing .video-play-button {
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+        
+        /* Скрываем стандартные элементы управления до начала воспроизведения */
+        .video-item:not(.playing) video::-webkit-media-controls-panel {
+            display: none !important;
+        }
+        
+        .video-item:not(.playing) video::-webkit-media-controls-play-button {
+            display: none !important;
+        }
+        
+        .video-item:not(.playing) video::-webkit-media-controls-start-playback-button {
+            display: none !important;
+        }
+        
+        @media (max-width: 768px) {
+            .videos-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .video-play-button {
+                width: 70px;
+                height: 70px;
+            }
+            
+            .video-play-button::before {
+                border-left-width: 24px;
+                border-top-width: 15px;
+                border-bottom-width: 15px;
+            }
+        }
+        
+        /* Продукция */
+        .products {
+            padding: 4rem 1rem;
+            background: var(--bg-cream);
+        }
+        
+        @media (min-width: 768px) {
+            .products {
+                padding: 4rem 2rem;
+            }
+        }
+        
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        
+        @media (min-width: 768px) {
+            .products-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (min-width: 1024px) {
+            .products-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+        
+        .product {
+            width: 100%;
+        }
+        
+        .product {
+            display: flex;
+            flex-direction: column;
+            background: white;
+            border-radius: 0.75rem;
+            overflow: hidden;
+            border: 1px solid var(--border-light);
+            transition: var(--transition);
+        }
+        
+        .product:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.1);
+            border-color: var(--forest-light);
+        }
+        
+        .product-image {
+            width: 100%;
+            aspect-ratio: 4/3;
+            background: linear-gradient(135deg, var(--accent-gold) 0%, var(--wood-brown) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 0.95rem;
+            font-weight: 500;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .product-info {
+            padding: 1.5rem;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .product-title {
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--forest-dark);
+            margin-bottom: 0.75rem;
+        }
+        
+        .product-desc {
+            color: var(--text-gray);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            line-height: 1.5;
+        }
+        
+        .product-sizes {
+            margin-bottom: 1rem;
+        }
+        
+        .sizes-title {
+            font-weight: 600;
+            font-size: 0.8rem;
+            color: var(--text-dark);
+            margin-bottom: 0.4rem;
+            display: inline-block;
+        }
+        
+        .size-tags {
+            display: inline;
+            font-size: 0.85rem;
+            color: var(--text-gray);
+            line-height: 1.5;
+        }
+        
+        .size-tag {
+            display: inline;
+        }
+        
+        .size-tag:not(:last-child)::after {
+            content: ', ';
+            margin-right: 0.2rem;
+        }
+        
+        .product-btn {
+            width: 100%;
+            padding: 0.85rem;
+            background: var(--forest-green);
+            color: white;
+            border: none;
+            border-radius: 0.4rem;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: var(--transition);
+            margin-top: auto;
+        }
+        
+        .product-btn:hover {
+            background: var(--forest-dark);
+        }
+        
+        /* Контакты */
+        .contacts {
+            padding: 4rem 1rem;
+            background: white;
+        }
+        
+        @media (min-width: 768px) {
+            .contacts {
+                padding: 4rem 2rem;
+            }
+        }
+        
+        .contacts-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.5fr;
+            gap: 3rem;
+            margin-top: 3rem;
+        }
+        
+        .contact-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+        
+        .contact-item {
+            background: var(--bg-cream);
+            padding: 1.5rem;
+            border-radius: 0.75rem;
+            border: 1px solid var(--border-light);
+            transition: var(--transition);
+        }
+        
+        .contact-item:hover {
+            transform: translateX(8px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+        }
+        
+        .contact-label {
+            font-weight: 700;
+            color: var(--forest-green);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0.5rem;
+        }
+        
+        .contact-value {
+            font-size: 1.1rem;
+            color: var(--text-dark);
+            word-break: break-word;
+        }
+        
+        .contact-value a {
+            color: var(--text-dark);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+        
+        .contact-value a:hover {
+            color: var(--forest-green);
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 0.75rem;
+            margin-top: 1rem;
+        }
+        
+        .social-link {
+            width: 32px;
+            height: 32px;
+            background: transparent;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            transition: var(--transition);
+            overflow: hidden;
+        }
+        
+        .social-link img {
+            width: 32px;
+            height: 32px;
+            object-fit: contain;
+        }
+        
+        .social-link:hover {
+            transform: translateY(-3px);
+            opacity: 0.8;
+        }
+        
+        .map-container {
+            border-radius: 0.75rem;
+            overflow: hidden;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+            height: 100%;
+            min-height: 400px;
+            border: 1px solid var(--border-light);
+        }
+        
+        /* Скрытие нижних элементов управления Яндекс.Карт */
+        .map-container .ymaps-2-1-79-copyright,
+        .map-container .ymaps-2-1-79-controls__control,
+        .map-container .ymaps-2-1-79-controls__bottom,
+        .map-container [class*="copyright"],
+        .map-container [class*="controls__bottom"] {
+            display: none !important;
+        }
+        
+        .map-container #map .ymaps-2-1-79-copyright,
+        .map-container #map .ymaps-2-1-79-controls__control,
+        .map-container #map .ymaps-2-1-79-controls__bottom {
+            display: none !important;
+        }
+        
+        /* Футер */
+        .footer {
+            background: var(--forest-dark);
+            color: white;
+            padding: 2.5rem 1rem 1.5rem;
+        }
+        
+        @media (min-width: 768px) {
+            .footer {
+                padding: 2.5rem 2rem 1.5rem;
+            }
+        }
+        
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 3rem;
+            margin-bottom: 2rem;
+        }
+        
+        .footer-brand {
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            font-weight: 800;
+            margin-bottom: 0.75rem;
+        }
+        
+        .footer-desc {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+        
+        .footer-section h4 {
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+        
+        .footer-links {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+        }
+        
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: var(--transition);
+        }
+        
+        .footer-links a:hover {
+            color: white;
+            padding-left: 5px;
+        }
+        
+        .footer-bottom {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.15);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.85rem;
+        }
+        
+        /* Адаптивность */
+        
+        /* Планшеты и маленькие ноутбуки */
+        @media (max-width: 1024px) {
+            .nav-container {
+                padding: 0 1.5rem;
+            }
+            
+            .hero-container {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            
+            .hero {
+                padding: 7rem 1.5rem 3rem;
+                min-height: auto;
+            }
+            
+            .hero-title {
+                font-size: 3rem;
+            }
+            
+            .hero-description {
+                font-size: 1rem;
+            }
+            
+            .about {
+                padding: 3rem 1.5rem;
+            }
+            
+            .about-content {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1.5rem;
+            }
+            
+            .videos {
+                padding: 3rem 1.5rem;
+            }
+            
+            .videos-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1.5rem;
+            }
+            
+            .products {
+                padding: 3rem 1.5rem;
+            }
+            
+            .contacts {
+                padding: 3rem 1.5rem;
+            }
+            
+            .contacts-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            
+            .map-container {
+                min-height: 350px;
+            }
+            
+            .footer {
+                padding: 2rem 1.5rem 1.5rem;
+            }
+            
+            .footer-content {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 2rem;
+            }
+        }
+        
+        /* Планшеты в портретной ориентации и большие мобильные */
+        @media (max-width: 768px) {
+            .nav-container {
+                padding: 0 1rem;
+            }
+            
+            .navbar {
+                padding: 1rem 0;
+                display: flex;
+                align-items: center;
+            }
+            
+            .navbar.scrolled {
+                padding: 0.7rem 0;
+            }
+            
+            .nav-container {
+                align-items: center;
+                justify-content: space-between;
+                height: 100%;
+                width: 100%;
+            }
+            
+            .nav-menu {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                height: 100vh;
+                width: 75%;
+                max-width: 300px;
+                background: white;
+                flex-direction: column;
+                padding: 5rem 2rem;
+                box-shadow: -5px 0 20px rgba(0, 0, 0, 0.1);
+                transition: right 0.4s ease;
+                gap: 2rem;
+                align-items: flex-start;
+                z-index: 999;
+                display: flex;
+                pointer-events: none;
+            }
+            
+            .nav-menu.active {
+                right: 0;
+                pointer-events: auto;
+            }
+            
+            .nav-container {
+                display: grid;
+                grid-template-columns: 1fr auto;
+                gap: 0;
+            }
+            
+            .logo {
+                grid-column: 1;
+                justify-self: start;
+            }
+            
+            .nav-menu {
+                display: none;
+            }
+            
+            .burger {
+                grid-column: 2;
+                justify-self: end;
+            }
+            
+            .burger {
+                display: flex;
+                z-index: 1001;
+            }
+            
+            .burger.active span:nth-child(1) {
+                transform: rotate(45deg) translate(6px, 6px);
+            }
+            
+            .burger.active span:nth-child(2) {
+                opacity: 0;
+            }
+            
+            .burger.active span:nth-child(3) {
+                transform: rotate(-45deg) translate(6px, -6px);
+            }
+            
+            .hero {
+                padding: 8rem 1rem 2.5rem;
+                min-height: auto;
+            }
+            
+            .hero-container {
+                gap: 1.5rem;
+            }
+            
+            .hero-tag {
+                font-size: 0.75rem;
+                padding: 0.4rem 1rem;
+                margin-bottom: 1rem;
+            }
+            
+            .hero-title {
+                font-size: 2.2rem;
+                margin-bottom: 0.75rem;
+                line-height: 1.2;
+            }
+            
+            .hero-description {
+                font-size: 0.95rem;
+                margin-bottom: 1.5rem;
+                line-height: 1.6;
+            }
+            
+            .hero-stats {
+                flex-direction: row;
+                gap: 1.5rem;
+                margin-bottom: 1.5rem;
+                flex-wrap: wrap;
+            }
+            
+            .stat-number {
+                font-size: 1.8rem;
+            }
+            
+            .stat-label {
+                font-size: 0.8rem;
+            }
+            
+            .hero-buttons {
+                flex-direction: column;
+                gap: 0.75rem;
+            }
+            
+            .btn {
+                padding: 0.85rem 1.5rem;
+                font-size: 0.9rem;
+                width: 100%;
+                text-align: center;
+            }
+            
+            .about {
+                padding: 3rem 1rem;
+            }
+            
+            .section-header {
+                margin-bottom: 2rem;
+            }
+            
+            .section-tag {
+                font-size: 0.75rem;
+                letter-spacing: 1.5px;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+                margin-bottom: 0.75rem;
+            }
+            
+            .section-description {
+                font-size: 0.95rem;
+            }
+            
+            .about-description {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+                font-size: 0.95rem;
+                margin-bottom: 2.5rem;
+            }
+            
+            .about-content {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+                margin-top: 2rem;
+            }
+            
+            .feature {
+                padding: 1.5rem;
+            }
+            
+            .feature-title {
+                font-size: 1.05rem;
+            }
+            
+            .feature-text {
+                font-size: 0.9rem;
+            }
+            
+            .videos {
+                padding: 3rem 1rem;
+            }
+            
+            .videos-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+                margin-top: 1.5rem;
+            }
+            
+            .video-play-button {
+                width: 70px;
+                height: 70px;
+            }
+            
+            .video-play-button::before {
+                border-left-width: 24px;
+                border-top-width: 15px;
+                border-bottom-width: 15px;
+            }
+            
+            .products {
+                padding: 3rem 1rem;
+            }
+            
+            .products-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            
+            .product-info {
+                padding: 1.25rem;
+            }
+            
+            .product-title {
+                font-size: 1.3rem;
+            }
+            
+            .product-desc {
+                font-size: 0.85rem;
+            }
+            
+            .contacts {
+                padding: 3rem 1rem;
+            }
+            
+            .contacts-grid {
+                gap: 2rem;
+                margin-top: 2rem;
+            }
+            
+            .contact-item {
+                padding: 1.25rem;
+            }
+            
+            .contact-label {
+                font-size: 0.75rem;
+            }
+            
+            .contact-value {
+                font-size: 1rem;
+            }
+            
+            .map-container {
+                min-height: 300px;
+            }
+            
+            .footer {
+                padding: 2rem 1rem 1.5rem;
+            }
+            
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+                margin-bottom: 1.5rem;
+            }
+            
+            .footer-brand {
+                font-size: 1.3rem;
+            }
+            
+            .footer-desc {
+                font-size: 0.85rem;
+            }
+            
+            .footer-bottom {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+                padding-top: 1.5rem;
+                font-size: 0.8rem;
+            }
+        }
+        
+        /* Маленькие мобильные устройства */
+        @media (max-width: 480px) {
+            .nav-container {
+                padding: 0 0.75rem;
+            }
+            
+            
+            .nav-menu {
+                width: 80%;
+                padding: 4rem 1.5rem;
+            }
+            
+            .hero {
+                padding: 7.5rem 0.75rem 2rem;
+            }
+            
+            .hero-tag {
+                font-size: 0.7rem;
+                padding: 0.35rem 0.85rem;
+            }
+            
+            .hero-title {
+                font-size: 1.8rem;
+                letter-spacing: -0.5px;
+            }
+            
+            .hero-description {
+                font-size: 0.9rem;
+            }
+            
+            .hero-stats {
+                gap: 1rem;
+                justify-content: space-between;
+            }
+            
+            .stat {
+                flex: 1;
+                min-width: 0;
+            }
+            
+            .stat-number {
+                font-size: 1.6rem;
+            }
+            
+            .stat-label {
+                font-size: 0.75rem;
+                margin-top: 0.2rem;
+            }
+            
+            .btn {
+                padding: 0.8rem 1.25rem;
+                font-size: 0.85rem;
+            }
+            
+            .about {
+                padding: 2.5rem 0.75rem;
+            }
+            
+            .section-header {
+                margin-bottom: 1.5rem;
+            }
+            
+            .section-tag {
+                font-size: 0.7rem;
+                letter-spacing: 1px;
+            }
+            
+            .section-title {
+                font-size: 1.75rem;
+            }
+            
+            .section-description {
+                font-size: 0.9rem;
+                padding: 0 0.5rem;
+            }
+            
+            .about-description {
+                font-size: 0.9rem;
+                margin-bottom: 2rem;
+            }
+            
+            .about-description p {
+                text-align: left;
+            }
+            
+            .feature {
+                padding: 1.25rem;
+            }
+            
+            .feature-title {
+                font-size: 1rem;
+            }
+            
+            .feature-text {
+                font-size: 0.85rem;
+            }
+            
+            .videos {
+                padding: 2.5rem 0.75rem;
+            }
+            
+            .videos-grid {
+                gap: 0.75rem;
+            }
+            
+            .video-play-button {
+                width: 60px;
+                height: 60px;
+            }
+            
+            .video-play-button::before {
+                border-left-width: 20px;
+                border-top-width: 12px;
+                border-bottom-width: 12px;
+            }
+            
+            .products {
+                padding: 2.5rem 0.75rem;
+            }
+            
+            .products-grid {
+                grid-template-columns: 1fr;
+                gap: 1.25rem;
+            }
+            
+            .product-image {
+                aspect-ratio: 4/3;
+            }
+            
+            .product-info {
+                padding: 1rem;
+            }
+            
+            .product-title {
+                font-size: 1.2rem;
+                margin-bottom: 0.5rem;
+            }
+            
+            .product-desc {
+                font-size: 0.8rem;
+                margin-bottom: 0.75rem;
+            }
+            
+            .sizes-title {
+                font-size: 0.75rem;
+            }
+            
+            .size-tags {
+                font-size: 0.8rem;
+            }
+            
+            .product-btn {
+                padding: 0.75rem;
+                font-size: 0.85rem;
+            }
+            
+            .contacts {
+                padding: 2.5rem 0.75rem;
+            }
+            
+            .contacts-grid {
+                gap: 1.5rem;
+            }
+            
+            .contact-list {
+                gap: 1rem;
+            }
+            
+            .contact-item {
+                padding: 1rem;
+            }
+            
+            .contact-label {
+                font-size: 0.7rem;
+            }
+            
+            .contact-value {
+                font-size: 0.95rem;
+            }
+            
+            .social-link {
+                width: 28px;
+                height: 28px;
+            }
+            
+            .social-link img {
+                width: 28px;
+                height: 28px;
+            }
+            
+            .map-container {
+                min-height: 280px;
+            }
+            
+            .footer {
+                padding: 1.5rem 0.75rem 1rem;
+            }
+            
+            .footer-content {
+                gap: 1.5rem;
+            }
+            
+            .footer-brand {
+                font-size: 1.2rem;
+            }
+            
+            .footer-desc {
+                font-size: 0.8rem;
+            }
+            
+            .footer-section h4 {
+                font-size: 0.95rem;
+            }
+            
+            .footer-links {
+                gap: 0.5rem;
+            }
+            
+            .footer-links a {
+                font-size: 0.85rem;
+            }
+            
+            .footer-bottom {
+                font-size: 0.75rem;
+                padding-top: 1rem;
+            }
+        }
+        
+        /* Очень маленькие экраны */
+        @media (max-width: 360px) {
+            .hero-title {
+                font-size: 1.6rem;
+            }
+            
+            .section-title {
+                font-size: 1.5rem;
+            }
+            
+            .hero-stats {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .stat {
+                width: 100%;
+            }
+            
+            .product {
+                flex: 0 0 240px;
+            }
+        }
+        
+        /* Ландшафтная ориентация на мобильных */
+        @media (max-width: 768px) and (orientation: landscape) {
+            .hero {
+                min-height: auto;
+                padding: 5rem 1rem 2rem;
+            }
+            
+            .hero-title {
+                font-size: 2rem;
+            }
+            
+            .hero-stats {
+                flex-direction: row;
+            }
+        }
+        
+        /* Улучшение для touch устройств */
+        @media (hover: none) and (pointer: coarse) {
+            .btn, .product-btn, .video-play-button {
+                min-height: 44px;
+                min-width: 44px;
+            }
+            
+            .nav-link {
+                padding: 0.5rem 0;
+                min-height: 44px;
+                display: flex;
+                align-items: center;
+            }
+            
+            .contact-item:hover {
+                transform: none;
+            }
+            
+            .feature:hover {
+                transform: none;
+            }
+            
+            .product:hover {
+                transform: none;
+            }
+        }
+        
+        /* Анимации появления при скролле */
+        .scroll-animate {
+            opacity: 0;
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        
+        .scroll-animate.animate-fade-in-up {
+            transform: translateY(40px);
+        }
+        
+        .scroll-animate.animate-fade-in-left {
+            transform: translateX(-40px);
+        }
+        
+        .scroll-animate.animate-fade-in-right {
+            transform: translateX(40px);
+        }
+        
+        .scroll-animate.animate-fade-in {
+            transform: scale(0.95);
+        }
+        
+        .scroll-animate.animate-scale-in {
+            transform: scale(0.8);
+        }
+        
+        .scroll-animate.visible {
+            opacity: 1;
+            transform: translateY(0) translateX(0) scale(1);
+        }
+        
+        /* Задержки для последовательного появления */
+        .scroll-animate.delay-1 {
+            transition-delay: 0.1s;
+        }
+        
+        .scroll-animate.delay-2 {
+            transition-delay: 0.2s;
+        }
+        
+        .scroll-animate.delay-3 {
+            transition-delay: 0.3s;
+        }
+        
+        .scroll-animate.delay-4 {
+            transition-delay: 0.4s;
+        }
+        
+        /* Анимации */
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); box-shadow: 0 12px 35px rgba(0, 0, 0, 0.15); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Навигация -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="#" class="logo">
+                <span>ВятскаяЭкоДоска</span>
+                <img src="logo/favicon.png" alt="ВятскаяЭкоДоска">
+            </a>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="#home" class="nav-link">Главная</a></li>
+                <li><a href="#about" class="nav-link">О нас</a></li>
+                <li><a href="#products" class="nav-link">Продукция</a></li>
+                <li><a href="#contacts" class="nav-link">Контакты</a></li>
+            </ul>
+            <div class="burger" id="burger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="hero" id="home">
+        <div class="hero-container">
+            <div class="hero-content">
+                <div class="hero-tag">Экологично • Качественно • Надёжно</div>
+                <h1 class="hero-title">Натуральное дерево высшего качества</h1>
+                <p class="hero-description">Высококачественные строганные доски из сосны и ели. Традиции лесного края, экологичные технологии и тщательный ручной отбор каждой доски.</p>
+                
+                <div class="hero-stats">
+                    <div class="stat">
+                        <div class="stat-number">10+</div>
+                        <div class="stat-label">лет на рынке</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-number">500м³</div>
+                        <div class="stat-label">в месяц</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-number">100%</div>
+                        <div class="stat-label">доставка по РФ</div>
+                    </div>
+                </div>
+                
+                <div class="hero-buttons">
+                    <a href="#products" class="btn btn-primary">Продукция</a>
+                    <a href="#contacts" class="btn btn-secondary">Контакты</a>
+                </div>
+            </div>
+            
+            <div class="hero-image">
+                <div class="image-placeholder">
+                    <img src="logo/logo.png" alt="ВятскаяЭкоДоска">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- О компании -->
+    <section class="about" id="about">
+        <div class="container">
+            <div class="section-header scroll-animate animate-fade-in-up">
+                <span class="section-tag">О компании</span>
+                <h2 class="section-title">Качество, проверенное временем</h2>
+            </div>
+            
+            <div class="about-description scroll-animate animate-fade-in-up delay-1">
+                <p>ВятскаяЭкоДоска — это бренд, который объединяет традиции лесного края и заботу об окружающей среде. Мы создаём высококачественные строганные доски из сосны и ели, используя экологичные технологии и натуральные материалы.</p>
+                <p>Каждая доска — это результат тщательного ручного отбора и обработки, чтобы подарить вам долговечность, природную красоту и экологическую чистоту. Выбирая ВятскаяЭкоДоска, вы делаете ставку на качество, здоровье и бережное отношение к природе.</p>
+            </div>
+            
+            <div class="about-content">
+                <div class="feature scroll-animate animate-fade-in-up delay-1">
+                    <h3 class="feature-title">Экологичность</h3>
+                    <p class="feature-text">Натуральные материалы и экологичные технологии производства</p>
+                </div>
+                
+                <div class="feature scroll-animate animate-fade-in-up delay-2">
+                    <h3 class="feature-title">Контроль качества</h3>
+                    <p class="feature-text">Тщательный ручной отбор и многоступенчатая проверка каждой доски</p>
+                </div>
+                
+                <div class="feature scroll-animate animate-fade-in-up delay-3">
+                    <h3 class="feature-title">Доставка по России</h3>
+                    <p class="feature-text">Быстрая и надежная доставка в любой регион страны</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Видео галерея -->
+    <section class="videos" id="videos">
+        <div class="container">
+            <div class="section-header scroll-animate animate-fade-in-up">
+                <span class="section-tag">Производство</span>
+                <h2 class="section-title">Наш процесс в действии</h2>
+                <p class="section-description">Посмотрите, как мы создаём качественные пиломатериалы</p>
+            </div>
+            
+            <div class="videos-grid">
+                <div class="video-item scroll-animate animate-scale-in delay-1">
+                    <video muted preload="metadata" loop playsinline>
+                        <source src="videos/IMG_3355.MP4" type="video/mp4">
+                        Ваш браузер не поддерживает видео.
+                    </video>
+                    <button class="video-play-button" aria-label="Запустить видео">
+                        <span style="display: none;">Запустить</span>
+                    </button>
+                </div>
+                
+                <div class="video-item scroll-animate animate-scale-in delay-2">
+                    <video muted preload="metadata" loop playsinline>
+                        <source src="videos/IMG_3356.MP4" type="video/mp4">
+                        Ваш браузер не поддерживает видео.
+                    </video>
+                    <button class="video-play-button" aria-label="Запустить видео">
+                        <span style="display: none;">Запустить</span>
+                    </button>
+                </div>
+                
+                <div class="video-item scroll-animate animate-scale-in delay-3">
+                    <video muted preload="metadata" loop playsinline>
+                        <source src="videos/IMG_3357.MP4" type="video/mp4">
+                        Ваш браузер не поддерживает видео.
+                    </video>
+                    <button class="video-play-button" aria-label="Запустить видео">
+                        <span style="display: none;">Запустить</span>
+                    </button>
+                </div>
+                
+                <div class="video-item scroll-animate animate-scale-in delay-4">
+                    <video muted preload="metadata" loop playsinline>
+                        <source src="videos/IMG_3358.MP4" type="video/mp4">
+                        Ваш браузер не поддерживает видео.
+                    </video>
+                    <button class="video-play-button" aria-label="Запустить видео">
+                        <span style="display: none;">Запустить</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Продукция -->
+    <section class="products" id="products">
+        <div class="container">
+            <div class="section-header scroll-animate animate-fade-in-up">
+                <span class="section-tag">Продукция</span>
+                <h2 class="section-title">Наш ассортимент</h2>
+                <p class="section-description">Широкий выбор высококачественных пиломатериалов для строительства и отделки</p>
+            </div>
+            
+            <div class="products-grid" id="productsGrid">
+                <!-- Евровагонка -->
+                <div class="product scroll-animate animate-fade-in-up delay-1">
+                    <div class="product-image">
+                        <img src="images/eurosiding.jpg" alt="Евровагонка">
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-title">Евровагонка</h3>
+                        <p class="product-desc">Облицовочный материал для обшивки потолков и стен</p>
+                        <div class="product-sizes">
+                            <span class="sizes-title">Размеры: </span>
+                            <span class="size-tags">
+                                <span class="size-tag">12,5×90 мм</span>
+                                <span class="size-tag">2-6 м</span>
+                            </span>
+                        </div>
+                        <button class="product-btn" onclick="scrollToContacts()">Заказать</button>
+                    </div>
+                </div>
+                
+                <!-- Вагонка штиль -->
+                <div class="product scroll-animate animate-fade-in-up delay-2">
+                    <div class="product-image">
+                        <img src="images/liningcalm.jpg" alt="Вагонка Штиль">
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-title">Вагонка Штиль</h3>
+                        <p class="product-desc">Облицовочный материал с близким стыком «шип-паз»</p>
+                        <div class="product-sizes">
+                            <span class="sizes-title">Размеры: </span>
+                            <span class="size-tags">
+                                <span class="size-tag">13×110 мм</span>
+                                <span class="size-tag">13×135 мм</span>
+                                <span class="size-tag">2-6 м</span>
+                            </span>
+                        </div>
+                        <button class="product-btn" onclick="scrollToContacts()">Заказать</button>
+                    </div>
+                </div>
+                
+                <!-- Имитация бруса -->
+                <div class="product scroll-animate animate-fade-in-up delay-3">
+                    <div class="product-image">
+                        <img src="images/timber.jpg" alt="Имитация бруса">
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-title">Имитация бруса</h3>
+                        <p class="product-desc">Материал, визуально похожий на профилированный брус</p>
+                        <div class="product-sizes">
+                            <span class="sizes-title">Размеры: </span>
+                            <span class="size-tags">
+                                <span class="size-tag">16×135 мм</span>
+                                <span class="size-tag">21×135 мм</span>
+                                <span class="size-tag">22×185 мм</span>
+                                <span class="size-tag">2-6 м</span>
+                            </span>
+                        </div>
+                        <button class="product-btn" onclick="scrollToContacts()">Заказать</button>
+                    </div>
+                </div>
+                
+                <!-- Доска пола -->
+                <div class="product scroll-animate animate-fade-in-up delay-1">
+                    <div class="product-image">
+                        <img src="images/floorboard.jpg" alt="Доска пола">
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-title">Доска пола</h3>
+                        <p class="product-desc">Прочный материал из натуральной древесины</p>
+                        <div class="product-sizes">
+                            <span class="sizes-title">Размеры: </span>
+                            <span class="size-tags">
+                                <span class="size-tag">28×110 мм</span>
+                                <span class="size-tag">28×135 мм</span>
+                                <span class="size-tag">36×110 мм</span>
+                                <span class="size-tag">36×135 мм</span>
+                                <span class="size-tag">3-6 м</span>
+                            </span>
+                        </div>
+                        <button class="product-btn" onclick="scrollToContacts()">Заказать</button>
+                    </div>
+                </div>
+                
+                <!-- Блок-Хаус -->
+                <div class="product scroll-animate animate-fade-in-up delay-2">
+                    <div class="product-image">
+                        <img src="images/blockhouse.jpg" alt="Блок-Хаус">
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-title">Блок-Хаус</h3>
+                        <p class="product-desc">Строганая доска в виде сегмента бревна</p>
+                        <div class="product-sizes">
+                            <span class="sizes-title">Размеры: </span>
+                            <span class="size-tags">
+                                <span class="size-tag">28×135 мм</span>
+                                <span class="size-tag">37×185 мм</span>
+                                <span class="size-tag">3-6 м</span>
+                            </span>
+                        </div>
+                        <button class="product-btn" onclick="scrollToContacts()">Заказать</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Контакты -->
+    <section class="contacts" id="contacts">
+        <div class="container">
+            <div class="section-header scroll-animate animate-fade-in-up">
+                <span class="section-tag">Контакты</span>
+                <h2 class="section-title">Свяжитесь с нами</h2>
+                <p class="section-description">Мы всегда рады ответить на ваши вопросы</p>
+            </div>
+            
+            <div class="contacts-grid">
+                <div class="contact-list">
+                    <div class="contact-item scroll-animate animate-fade-in-left delay-1">
+                        <div class="contact-label">Телефон</div>
+                        <div class="contact-value"><a href="tel:+79127076935">+7 (912) 707-69-35</a></div>
+                    </div>
+                    
+                    <div class="contact-item scroll-animate animate-fade-in-left delay-2">
+                        <div class="contact-label">Email</div>
+                        <div class="contact-value"><a href="mailto:ekodoska@bk.ru">ekodoska@bk.ru</a></div>
+                    </div>
+                    
+                    <div class="contact-item scroll-animate animate-fade-in-left delay-3">
+                        <div class="contact-label">Адрес</div>
+                        <div class="contact-value">Кировская обл, Белохолуницкий район, г. Белая Холуница, Кооперативная 11</div>
+                    </div>
+                    
+                    <div class="contact-item scroll-animate animate-fade-in-left delay-1">
+                        <div class="contact-label">Мессенджеры</div>
+                        <div class="social-links">
+                            <a href="https://t.me/vyatekodoska" class="social-link" target="_blank" title="Telegram">
+                                <img src="images/tg.webp" alt="Telegram">
+                            </a>
+                            <a href="https://vk.com/vyatekodoska" class="social-link" target="_blank" title="VK">
+                                <img src="images/vk.webp" alt="VK">
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-item scroll-animate animate-fade-in-left delay-2">
+                        <div class="contact-label">Реквизиты</div>
+                        <div class="contact-value" style="font-size: 0.95rem;">
+                            ИНН: 430300988832<br>
+                            ОГРН: 314430302100017
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="map-container scroll-animate animate-fade-in-right delay-1">
+                    <div id="map" style="width: 100%; height: 100%;"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Футер -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div>
+                <div class="footer-brand">ВятскаяЭкоДоска</div>
+                <p class="footer-desc">Высококачественные пиломатериалы из сосны и ели. Традиции лесного края и забота об экологии.</p>
+                <div class="social-links">
+                    <a href="https://t.me/ekodoska" class="social-link" target="_blank" title="Telegram">
+                        <img src="images/tg.webp" alt="Telegram">
+                    </a>
+                    <a href="https://vk.com/ekodoska" class="social-link" target="_blank" title="VK">
+                        <img src="images/vk.webp" alt="VK">
+                    </a>
+                </div>
+            </div>
+            
+            <div class="footer-section">
+                <h4>Навигация</h4>
+                <ul class="footer-links">
+                    <li><a href="#home">Главная</a></li>
+                    <li><a href="#about">О нас</a></li>
+                    <li><a href="#products">Продукция</a></li>
+                    <li><a href="#contacts">Контакты</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h4>Контакты</h4>
+                <ul class="footer-links">
+                    <li><a href="tel:+79127076935">+7 (912) 707-69-35</a></li>
+                    <li><a href="mailto:ekodoska@bk.ru">ekodoska@bk.ru</a></li>
+                    <li>г. Белая Холуница</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <div>© 2025 ВятскаяЭкоДоска. Все права защищены.</div>
+            <div>ИНН: 430300988832 | ОГРН: 314430302100017</div>
+        </div>
+    </footer>
+
+    <!-- Яндекс карты API -->
+    <script src="https://api-maps.yandex.ru/2.1/?apikey=YOUR_API_KEY&lang=ru_RU" type="text/javascript"></script>
+    
+    <script>
+        // Навигация
+        const navbar = document.getElementById('navbar');
+        const burger = document.getElementById('burger');
+        const navMenu = document.getElementById('navMenu');
+        
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+        
+        // Анимации появления при скролле
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    // Отключаем наблюдение после появления, чтобы анимация не повторялась
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+        
+        // Наблюдаем за всеми элементами с классом scroll-animate
+        document.querySelectorAll('.scroll-animate').forEach(el => {
+            observer.observe(el);
+        });
+        
+        // Бургер меню
+        burger.addEventListener('click', () => {
+            burger.classList.toggle('active');
+            navMenu.classList.toggle('active');
+        });
+        
+        // Закрытие меню
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', () => {
+                burger.classList.remove('active');
+                navMenu.classList.remove('active');
+            });
+        });
+        
+        // Плавный скролл
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    window.scrollTo({
+                        top: target.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+        
+        // Переход к контактам
+        function scrollToContacts() {
+            const contactsSection = document.getElementById('contacts');
+            window.scrollTo({
+                top: contactsSection.offsetTop - 80,
+                behavior: 'smooth'
+            });
+            
+            const contactItems = document.querySelectorAll('.contact-item');
+            contactItems.forEach(item => {
+                item.style.animation = 'none';
+                setTimeout(() => {
+                    item.style.animation = 'pulse 0.6s ease';
+                }, 10);
+            });
+        }
+        
+        // Управление видео с кастомной кнопкой
+        document.querySelectorAll('.video-item').forEach(item => {
+            const video = item.querySelector('video');
+            const playButton = item.querySelector('.video-play-button');
+            
+            // Клик по кнопке воспроизведения
+            playButton.addEventListener('click', function(e) {
+                e.stopPropagation();
+                video.setAttribute('controls', 'controls');
+                video.play();
+                item.classList.add('playing');
+            });
+            
+            // Обработка событий видео
+            video.addEventListener('play', function() {
+                item.classList.add('playing');
+                video.setAttribute('controls', 'controls');
+            });
+            
+            video.addEventListener('pause', function() {
+                // Не убираем controls при паузе, чтобы пользователь мог управлять
+            });
+            
+            // Если видео закончилось, можно убрать controls (опционально)
+            video.addEventListener('ended', function() {
+                // Оставляем controls для возможности перезапуска
+            });
+        });
+        
+        // Яндекс карта
+        ymaps.ready(init);
+        
+        function init() {
+            // Координаты: г. Белая Холуница, ул. Кооперативная 11
+            const coords = [58.843560, 50.852730];
+            
+            const myMap = new ymaps.Map("map", {
+                center: coords,
+                zoom: 13,
+                controls: [],
+                suppressMapOpenBlock: true
+            });
+            
+            const myPlacemark = new ymaps.Placemark(coords, {
+                balloonContent: '<strong>ВятскаяЭкоДоска</strong><br>г. Белая Холуница, Кооперативная 11',
+                hintContent: 'ВятскаяЭкоДоска'
+            }, {
+                preset: 'islands#greenDotIcon'
+            });
+            
+            myMap.geoObjects.add(myPlacemark);
+        }
+    </script>
+</body>
+</html>
